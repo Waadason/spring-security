@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import com.imooc.dto.User;
 import com.imooc.dto.User.UserDetailView;
 import com.imooc.dto.User.UserSimpleView;
 import com.imooc.dto.UserQueryCondition;
+import com.imooc.exception.UserNotExistException;
 
 
 /**
@@ -95,12 +97,16 @@ public class UserController {
 		users.add(new User());
 		return users;
 	}
+	@ExceptionHandler(UserNotExistException.class)
 	@GetMapping("/{id:\\d+}")
 	@JsonView(UserDetailView.class)
 	public User getInfo(@PathVariable(name = "id") String id) {
-		User user = new User();
-		user.setUsername("tom");
-		return user;
+		
+		throw new UserNotExistException(id);
+//		System.out.println("进入getInfo服务");
+//		User user = new User();
+//		user.setUsername("tom");
+//		return user;
 	}
 	
 }
