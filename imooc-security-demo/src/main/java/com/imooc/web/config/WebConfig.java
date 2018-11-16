@@ -33,6 +33,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 	}
 
 
+	//外部过滤器配置的方法，可以替代@component
 	@Bean
 	public FilterRegistrationBean timeFilter() {
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
