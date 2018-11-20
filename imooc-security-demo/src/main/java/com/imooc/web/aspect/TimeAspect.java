@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
  * @author lida_
  *
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class TimeAspect {
 
 	//任何返回值，任何方法，任何参数
