@@ -9,10 +9,10 @@
   </parent>
   
   <dependencies>
-  	<dependency>
+  	 <dependency>
   		<groupId>com.imooc.security</groupId>
   		<artifactId>imooc-security-core</artifactId>
   		<version>${imooc.security.version}</version>
-  	</dependency>
+  	 </dependency>
   </dependencies>
 </project>
