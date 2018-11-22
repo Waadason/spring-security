@@ -15,6 +15,7 @@ import org.apache.solr.client.solrj.request.CollectionAdminRequest.Create;
 import org.apache.solr.client.solrj.request.CollectionAdminRequest.Delete;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +47,11 @@ import io.swagger.annotations.ApiParam;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+	
+	@GetMapping("/me")
+	public Object getCurrentUser() {
+		return SecurityContextHolder.getContext().getAuthentication();
+	}
 	@PostMapping
 	@JsonView(UserSimpleView.class)
 	public User create(@Valid @RequestBody User user, BindingResult errors) {
