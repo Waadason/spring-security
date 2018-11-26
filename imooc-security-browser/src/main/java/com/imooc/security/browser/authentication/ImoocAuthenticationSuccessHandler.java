@@ -38,7 +38,7 @@ public class ImoocAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 
-		logger.info("登陆失败");
+		logger.info("登陆成功");
 		
 		if (LoginType.JSON.equals(securityProperties.getBrowserProperties().getLoginType())) {
 			response.setContentType("application/json;charset-UTF-8");

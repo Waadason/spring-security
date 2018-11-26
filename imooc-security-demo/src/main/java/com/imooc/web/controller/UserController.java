@@ -15,6 +15,7 @@ import org.apache.solr.client.solrj.request.CollectionAdminRequest.Create;
 import org.apache.solr.client.solrj.request.CollectionAdminRequest.Delete;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -48,9 +49,13 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/user")
 public class UserController {
 	
+//	@GetMapping("/me")
+//	public Object getCurrentUser() {
+//		return SecurityContextHolder.getContext().getAuthentication();
+//	}
 	@GetMapping("/me")
-	public Object getCurrentUser() {
-		return SecurityContextHolder.getContext().getAuthentication();
+	public Object getCurrentUser(Authentication authentication) {
+		return authentication;
 	}
 	@PostMapping
 	@JsonView(UserSimpleView.class)

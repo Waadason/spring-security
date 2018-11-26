@@ -9,8 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.validate.code.ValidateCodeFilter;
 
 /**
  * 
@@ -37,7 +39,13 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.formLogin()//表单登陆
+		ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+		validateCodeFilter.setAuthenticationFailureHandler(imoocAuthenticationFailureHandler);
+		validateCodeFilter.setSecurityProperties(securityProperties);
+		validateCodeFilter.afterPropertiesSet();
+		
+		http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+			.formLogin()//表单登陆
 			.loginPage("/authentication/require")
 			.loginProcessingUrl("/authentication/form")//登录处理的url
 			.successHandler(imoocAuthenticationSuccessHandler)
@@ -46,7 +54,8 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 			.authorizeRequests()//请求授权
 			.antMatchers("/authentication/require",
-					securityProperties.getBrowserProperties().getLoginPage()).permitAll()
+					securityProperties.getBrowserProperties().getLoginPage(),
+					"/code/image").permitAll()
 			.anyRequest()//任何请求
 			.authenticated()
 			.and()
